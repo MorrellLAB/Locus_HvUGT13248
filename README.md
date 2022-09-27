@@ -6,6 +6,7 @@ Associated transcript name: HORVU.MOREX.r2.5HG0384710.1
 - Transcript found in: `/panfs/jay/groups/9/morrellp/shared/References/Reference_Sequences/Barley/Morex_v2/gene_annotation/Barley_Morex_V2_gene_annotation_PGSB.HC.parts.sorted.gff3`
 
 Location relative to Morex v2 (2019): `chr5H:330626689-330629279`
+
 Location relative to parts (Morex v2 chromosomes split into two parts at the centromere): `chr5H_part2:124636877-124639467`
 
 ## Methods
