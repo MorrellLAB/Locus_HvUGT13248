@@ -1,0 +1,44 @@
+#!/bin/bash
+
+set -e
+set -o pipefail
+
+# Dependencies
+# Load perl module
+module load perl/modules.centos7.5.26.1
+module load htslib/1.9
+# VeP version 100.3
+export PATH=$PATH:/panfs/jay/groups/9/morrellp/liux1299/Software/ensembl-vep
+
+# User provided input arguments
+# Note: VeP only works on bgzipped and tabix indexed VCF files
+VCF="/panfs/jay/groups/9/morrellp/liux1299/GitHub/Locus_HvUGT13248/data/ssw_vc_snps_final_published_samp_chr5H_part2_124636877-124639467_polymorphic.vcf.gz"
+# Output file prefix
+OUT_PREFIX="cohort_chr5H_part2_124636877-124639467"
+# Full filepath to GFF file
+# GFF file needs to be bgzipped and tabix indexed for VeP
+GFF="/panfs/jay/groups/9/morrellp/shared/References/Reference_Sequences/Barley/Morex_v2/gene_annotation/Barley_Morex_V2_gene_annotation_PGSB.all.parts.sorted.gff3.gz"
+# Reference FASTA file
+REF="/panfs/jay/groups/9/morrellp/shared/References/Reference_Sequences/Barley/Morex_v2/Barley_Morex_V2_pseudomolecules_parts.fasta"
+# What species are we running?
+SPECIES="hordeum_vulgare"
+# Where do we want our output files to go?
+OUT_DIR="/panfs/jay/groups/9/morrellp/liux1299/GitHub/Locus_HvUGT13248/VEP/results-cohort"
+# Run_Vep.sh script
+RUN_VEP_SCRIPT="/panfs/jay/groups/9/morrellp/liux1299/GitHub/Locus_HvUGT13248/VEP/Run_Vep.sh"
+
+#--------------------------------
+# Check if out dir exists, if not make it
+mkdir -p ${OUT_DIR}
+vcf_bn=$(basename ${VCF} .vcf.gz)
+# Go into output directory
+cd ${OUT_DIR}
+
+# Pull run_vep function from script
+source ${RUN_VEP_SCRIPT}
+# Run function
+run_vep ${VCF} ${GFF} ${REF} ${SPECIES}
+
+# Rename output files
+cd ${OUT_DIR}
+rename -v "${vcf_bn}" "${OUT_PREFIX}" ${vcf_bn}*
